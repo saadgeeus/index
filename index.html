@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechNova - Computer Gadgets</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+            font-family: 'Poppins', sans-serif;
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: #111;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        header h1 {
+            color: #00ffe0;
+            font-size: 2rem;
+        }
+        nav a {
+            color: #aaa;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        nav a:hover {
+            color: #00ffe0;
+        }
+
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1603791440384-56cd371ee9a7?auto=format&fit=crop&w=1500&q=80') center / cover fixed;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+        .hero h2 {
+            font-size: 3rem;
+            color: #fff;
+            animation: fadeInUp 1s ease-out forwards;
+        }
+        .hero p {
+            color: #ccc;
+            max-width: 600px;
+            margin: 20px 0;
+            font-size: 1.2rem;
+            animation: fadeInUp 1.5s ease-out forwards;
+        }
+        .btn {
+            padding: 14px 40px;
+            margin: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            color: #0d0d0d;
+            background-color: #00ffe0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #00ccb0;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 255, 224, 0.5);
+        }
+
+        .products {
+            padding: 80px 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            background-color: #111;
+        }
+        .product-card {
+            background-color: #1c1c1c;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transform: translateY(50px);
+            opacity: 0;
+            transition: 0.7s ease-out;
+        }
+        .product-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .product-card h3 {
+            color: #00ffe0;
+            margin-bottom: 10px;
+        }
+        .product-card p {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        .product-card .btn {
+            padding: 10px 25px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #000;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            header {
+                padding: 10px 20px;
+            }
+            nav a {
+                margin-left: 10px;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener('scroll', () => {
+            document.querySelectorAll('.product-card').forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if (rect.top <= window.innerHeight - 100) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+
+    <header>
+        <h1>SAAD KHAN  ~~ TechNova ~~</h1>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Products</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>Next-Gen Computer Gadgets</h2>
+        <p>Performance. Innovation. Precision. Explore future-ready devices built for tech lovers and professionals.</p>
+        <button class="btn">Browse Products</button>
+        <button class="btn">Learn More</button>
+    </section>
+
+    <section class="products">
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1640955014216-75201056c829?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Gaming Laptop">
+            <h3>Gaming Laptop</h3>
+            <p>Ultimate performance for gaming and work.</p>
+            <button class="btn">View Details</button>
+        </div>
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1602025882379-e01cf08baa51?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Mechanical Keyboard">
+            <h3>Mechanical Keyboard</h3>
+            <p>Precision typing with RGB feedback.</p>
+            <button class="btn">View Details</button>
+        </div>
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1593642634367-d91a135587b5?auto=format&fit=crop&w=600&q=80" alt="Modern Monitor">
+            <h3>UltraWide Monitor</h3>
+            <p>Sleek, high-definition, and immersive displays.</p>
+            <button class="btn">View Details</button>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2025 SAAD TechNova. All rights reserved.
+    </footer>
+
+</body>
+</html>
