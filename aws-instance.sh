@@ -1,45 +1,61 @@
 #!/bin/bash
-# Automated EC2 startup setup: Docker, Docker Compose (plugin), AWS CLI
 
-# Update packages
-apt update -y
-apt-get update -y
-apt upgrade -y
-apt-get upgrade -y
+set -e
 
-# Install dependencies
-apt install -y ca-certificates curl gnupg lsb-release unzip
+echo "==== System update ===="
+sudo apt update -y
+sudo apt upgrade -y
 
-# Add Docker’s official GPG key
-mkdir -p /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo "==== Required packages ===="
+sudo apt install -y \
+  ca-certificates \
+  curl \
+  gnupg \
+  lsb-release \
+  unzip \
+  software-properties-common
 
-# Set up Docker repo
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
-  https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
-  > /etc/apt/sources.list.d/docker.list
+echo "==== Docker install ===="
+sudo apt install -y docker.io
+sudo systemctl enable docker
+sudo systemctl start docker
 
-# Install Docker Engine, CLI, and Docker Compose plugin
-apt update -y
-apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+echo "==== Docker Compose plugin install ===="
+sudo mkdir -p /usr/local/lib/docker/cli-plugins
+sudo curl -SL https://github.com/docker/compose/releases/download/v2.27.0/docker-compose-linux-x86_64 \
+  -o /usr/local/lib/docker/cli-plugins/docker-compose
+sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 
-# Enable and start Docker
-systemctl enable docker
-systemctl start docker
+echo "==== docker-compose legacy command enable ===="
+sudo ln -sf /usr/local/lib/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose
 
-# Add ubuntu user to docker group
-usermod -aG docker $USER && newgrp docker
+echo "==== Add current user to docker group ===="
+sudo usermod -aG docker $USER && newgrp docker
 
-# Install AWS CLI v2
+echo "==== Azure CLI install ===="
+# Microsoft ka official debian install script
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+echo "==== AWS CLI v2 install ===="
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-unzip -o awscliv2.zip
-./aws/install
+unzip -q awscliv2.zip
+sudo ./aws/install
+rm -rf aws awscliv2.zip
 
-# Verify installation
+echo "==== MySQL Client install ===="
+# MySQL server nahi, sirf client install ho raha hai commands ke liye
+sudo apt install -y mysql-client
+
+echo "==== Versions check ===="
 docker --version
 docker compose version
+docker-compose --version
+az --version | head -n 1
 aws --version
+mysql --version
 
-# Log completion
-echo "EC2 setup complete on $(date)" > /var/log/startup-setup.log
+echo "==== Setup complete ===="
+echo "=========================================================="
+echo "IMPORTANT: Logout & login dobara karein taake Docker group settings apply hon."
+echo "Ab aap 'az login' aur 'mysql -h host -u user -p' commands use kar sakte hain."
+echo "=========================================================="
